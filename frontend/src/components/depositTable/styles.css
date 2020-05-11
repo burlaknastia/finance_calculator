@@ -1,0 +1,25 @@
+.deposit-table {
+    border-collapse: collapse;
+    font-weight: 200;
+}
+
+.table-row {
+    text-align: center;
+    height: 3em;
+}
+
+.table-header {
+    color: #554853;
+    width: 15em;
+    font-weight: 400;
+}
+.table-header.header-date {
+    width: 8em;
+}
+
+.table-cell {
+    padding: 1em;
+    border: 1px solid;
+    min-width: 8em;
+}
+
