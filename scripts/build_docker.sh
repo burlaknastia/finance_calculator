@@ -1,5 +1,8 @@
 #!/bin/bash
+
 TAG="${1:-1.0.0}"
+
 echo "Image tag is $TAG"
-(cd frontend && npm run-script build)
-docker build -f Dockerfile -t deposit_calculator:$TAG --rm .
+
+rm -rf server/static
+docker build -f Dockerfile -t compound_interest_calculator:$TAG --rm .

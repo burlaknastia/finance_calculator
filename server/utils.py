@@ -2,7 +2,7 @@ import calendar
 import datetime
 import typing as t
 
-from models import Deposit
+from .models import Deposit
 
 DATE_FORMAT = "%Y-%m-%d"
 

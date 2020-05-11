@@ -5,10 +5,11 @@ from multiprocessing import Pool
 from flask import Flask, request, render_template, url_for
 from flask_cors import CORS
 
-from models import Deposit
-from utils import count_deposit_statistics
+from .models import Deposit
+from .utils import count_deposit_statistics
 
-app = Flask('deposit_calculator')
+app = Flask('deposit_calculator',
+            template_folder="server/templates")
 
 CORS(app)
 
