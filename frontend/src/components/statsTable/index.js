@@ -1,12 +1,12 @@
 import React, {useState} from "react";
 import './styles.css'
-import {DEPOSIT_COLORS} from "../../constants";
+import {INSTANCE_COLORS} from "../../constants";
 
 
-export default function DepositTable(props) {
+export default function StatsTable(props) {
     const [groupingMode, setGroupingMode] = useState(false)
 
-    const headers = ["period_start", "period_end", "deposit_value", "percents"]
+    const headers = ["period_start", "period_end", "instance_value", "percents"]
 
     const stats = groupingMode
         ? props.fullStatistics
@@ -26,7 +26,7 @@ export default function DepositTable(props) {
     }
 
     return <div className="center-chart">
-        <table className="deposit-table">
+        <table className="instance-table">
             <tbody>
             <tr className="table-row">
                 <th className="table-header header-date">Дата начала</th>
@@ -36,7 +36,7 @@ export default function DepositTable(props) {
             </tr>
             {stats.map((st, ind) =>
                 <tr className="table-row"
-                    style={{backgroundColor: DEPOSIT_COLORS[st['index']] + '2e'}}
+                    style={{backgroundColor: INSTANCE_COLORS[st['index']] + '2e'}}
                     key={ind}>
                     {headers.map(h =>
                         <td className="table-cell"

@@ -10,9 +10,8 @@ import {
     Pie, Cell, Label
 } from "recharts";
 import React from "react";
-import {DEPOSIT_COLORS, PERCENT_COLORS, PIE_COLORS} from "./constants";
+import {INSTANCE_COLORS, PERCENT_COLORS, PIE_COLORS} from "./constants";
 import {displayRussianMonthName} from "./functions";
-import DepositTable from "./components/depositTable";
 
 
 const renderTooltip = () => <Tooltip formatter={v => v.toFixed(2)}
@@ -26,7 +25,7 @@ const renderTooltip = () => <Tooltip formatter={v => v.toFixed(2)}
                                          textAlign: 'center'
                                      }}/>
 
-export function renderBarChart(deposits, statistics, uniteStats = true) {
+export function renderBarChart(instances, statistics, uniteStats = true) {
     return <div className="chart-block">
         <BarChart
             width={650}
@@ -42,16 +41,16 @@ export function renderBarChart(deposits, statistics, uniteStats = true) {
             <YAxis/>
             <Legend/>
             {renderTooltip()}
-            {deposits.map((d, i) => <Bar key={i}
-                                         dataKey={`deposit_value_${i + 1}`}
+            {instances.map((d, i) => <Bar key={i}
+                                         dataKey={`instance_value_${i + 1}`}
                                          name={`Сумма вклада ${i + 1}`}
-                                         stackId={uniteStats ? "deposit" : `deposit_${i + 1}`}
-                                         fill={DEPOSIT_COLORS[i]}/>
+                                         stackId={uniteStats ? "instance" : `instance_${i + 1}`}
+                                         fill={INSTANCE_COLORS[i]}/>
             )}
-            {deposits.map((d, i) => <Bar key={`percents_${i}`}
+            {instances.map((d, i) => <Bar key={`percents_${i}`}
                                          dataKey={`percents_${i + 1}`}
                                          name={`Доход ${i + 1}`}
-                                         stackId={uniteStats ? "deposit" : `deposit_${i + 1}`}
+                                         stackId={uniteStats ? "instance" : `instance_${i + 1}`}
                                          fill={PERCENT_COLORS[i]}/>
             )}
         </BarChart>

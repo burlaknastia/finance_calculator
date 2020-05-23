@@ -2,7 +2,7 @@ import calendar
 import datetime
 import typing as t
 
-from .models import Deposit
+from .models import Instance
 
 DATE_FORMAT = "%Y-%m-%d"
 
@@ -43,21 +43,21 @@ def get_dates(date_from: str, date_to: str = None,
 
 
 def count_by_months(date_from: datetime, date_to: datetime,
-                    deposit_value: t.Union[int, float],
+                    instance_value: t.Union[int, float],
                     annual_rate: float) -> t.List[dict]:
     statistics = list()
     while (date_to - date_from).days > 0:
         period_stats = dict()
         period_stats['period_start'] = date_from.strftime(DATE_FORMAT)
-        period_stats['deposit_value'] = deposit_value
+        period_stats['instance_value'] = instance_value
 
         days_in_month = calendar.monthrange(date_from.year, date_from.month)[1]
         days_in_year = get_days_in_year(date_from.year)
 
         days = get_days_for_period((date_to - date_from).days, days_in_month)
-        percents = count_percents(deposit_value, annual_rate, days,
+        percents = count_percents(instance_value, annual_rate, days,
                                   days_in_year)
-        deposit_value += percents
+        instance_value += percents
         date_from += datetime.timedelta(days=days)
 
         period_stats['percents'] = percents
@@ -68,10 +68,10 @@ def count_by_months(date_from: datetime, date_to: datetime,
     return statistics
 
 
-def count_deposit_statistics(deposit: Deposit) -> t.List[dict]:
-    date_from, date_to = get_dates(deposit.date_from, date_to=deposit.date_to,
-                                   number_of_months=deposit.n_months)
-    annual_rate = get_float_rate(deposit.rate)
-    statistics = count_by_months(date_from, date_to, deposit.value,
+def count_statistics(instance: Instance) -> t.List[dict]:
+    date_from, date_to = get_dates(instance.date_from, date_to=instance.date_to,
+                                   number_of_months=instance.n_months)
+    annual_rate = get_float_rate(instance.rate)
+    statistics = count_by_months(date_from, date_to, instance.value,
                                  annual_rate)
     return statistics

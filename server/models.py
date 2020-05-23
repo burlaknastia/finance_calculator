@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 
 @dataclass(init=False)
-class Deposit:
+class Instance:
     value: int
     rate: t.Union[int, float]
     date_from: str

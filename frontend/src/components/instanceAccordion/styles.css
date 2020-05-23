@@ -1,4 +1,4 @@
-.deposit-item {
+.instance-item {
     padding: 1em;
     margin-top: 0.75em;
     border: 2px solid #BBB6B6;
@@ -19,34 +19,34 @@
     grid-column: 1;
 }
 
-.deposit-item:hover {
+.instance-item:hover {
     background: #F4F1EC;
     border: 2px solid #C69C96;
     color: #A07F88;
 }
 
-.deposit-item:hover > .dropdown-arrow {
+.instance-item:hover > .dropdown-arrow {
     color: #A07F88;
 }
 
-.deposit-item_container {
+.instance-item_container {
     display: inline-grid;
     grid-template-columns: 90% 5%;
     justify-content: end;
 }
 
-.deposit-text {
+.instance-text {
     justify-self: center;
 }
 
-.deposit-item .dropdown-arrow {
+.instance-item .dropdown-arrow {
     color: #878181;
     font-size: 36px;
     justify-self: end;
     transition: transform 0.4s ease-out;
 }
 
-.deposit-item__more {
+.instance-item__more {
     height: 0;
     overflow: auto;
     transition: height .6s ease-out;
@@ -54,7 +54,7 @@
     grid-column: 1;
 }
 
-.deposit-item__more.display {
+.instance-item__more.display {
     display: flex !important;
     border: 2px solid #C4C4C4;
     border-top: 0;
@@ -65,29 +65,29 @@
     justify-content: center;
 }
 
-.deposit-item__more.display:hover {
+.instance-item__more.display:hover {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-.deposit-item.expand {
+.instance-item.expand {
     background: #F4F1EC;
     border: 2px solid #BAADA5;;
     color: #554853;
     box-shadow: unset;
 }
 
-.deposit-item.expand .dropdown-arrow {
+.instance-item.expand .dropdown-arrow {
     transform: rotate(180deg);
     color: #554853
 }
 
-.deposit-item.expand:hover {
+.instance-item.expand:hover {
     background: #ECD7D2;
     border: 2px solid #A07F88;
     color: #212121
 }
 
-.deposit-item.expand:hover .dropdown-arrow {
+.instance-item.expand:hover .dropdown-arrow {
     color: #212121
 }
 
