@@ -5,8 +5,8 @@ import {renderBarChart, renderPieChart} from "./charts";
 import Input from "./elements/input";
 import CheckBox from "./elements/checkbox";
 import Button from "./elements/button";
-import DepositAccordion from "./components/depositAccordion";
-import DepositTable from "./components/depositTable";
+import InstanceAccordion from "./components/instanceAccordion";
+import StatsTable from "./components/statsTable";
 
 
 export default class App extends React.Component {
@@ -20,7 +20,7 @@ export default class App extends React.Component {
         valueValid: false,
         dateFromValid: false,
         dateToValid: false,
-        deposits: [],
+        instances: [],
         initialSum: 0,
         statistics: null,
         fullStatistics: null,
@@ -69,19 +69,19 @@ export default class App extends React.Component {
     }
 
     setRenderCharts = () => {
-        const {deposits} = this.state
-        return fetch(`/api/deposits`,
+        const {instances} = this.state
+        return fetch(`/api/instances`,
             {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
                 },
-                body: JSON.stringify(deposits)
+                body: JSON.stringify(instances)
             })
             .then(res => res.json())
             .then(res => {
                 const {statistics, full_statistics} = res
-                const initialSum = deposits.reduce((acc, val) => acc + parseFloat(val.value), 0)
+                const initialSum = instances.reduce((acc, val) => acc + parseFloat(val.value), 0)
                 this.setState({
                     renderCharts: true,
                     fullStatistics: full_statistics,
@@ -93,43 +93,43 @@ export default class App extends React.Component {
             })
     }
 
-    addDeposit = () => {
-        let {rate, value, dateFrom, dateTo, deposits} = this.state
-        deposits.push({rate, value, date_from: dateFrom, date_to: dateTo})
-        const initialSum = deposits.reduce((acc, val) => acc + parseFloat(val.value), 0)
+    addInstance = () => {
+        let {rate, value, dateFrom, dateTo, instances} = this.state
+        instances.push({rate, value, date_from: dateFrom, date_to: dateTo})
+        const initialSum = instances.reduce((acc, val) => acc + parseFloat(val.value), 0)
         this.setState({
-            deposits, initialSum,
+            instances, initialSum,
             renderCharts: false,
             rate: '', value: '',
             dateFrom: '', dateTo: ''
         }, this.validateParams)
     }
 
-    removeDeposit = (index) => {
-        let {deposits} = this.state
-        deposits.splice(index, 1)
-        const initialSum = deposits.reduce((acc, val) => acc + parseFloat(val.value), 0)
+    removeInstance = (index) => {
+        let {instances} = this.state
+        instances.splice(index, 1)
+        const initialSum = instances.reduce((acc, val) => acc + parseFloat(val.value), 0)
         this.setState({
-            deposits, initialSum,
+            instances, initialSum,
             renderCharts: false,
         }, this.validateParams)
     }
 
-    saveEditedDeposit = (i, newDeposit) => {
-        let {deposits} = this.state
-        deposits[i] = newDeposit
+    saveEditedInstance = (i, newInstance) => {
+        let {instances} = this.state
+        instances[i] = newInstance
         this.setState({
-            deposits
+            instances
         })
     }
 
     renderCharts = () => {
         const {
             statistics, uniteStats, compareStats,
-            deposits, initialSum, fullStatistics
+            instances, initialSum, fullStatistics
         } = this.state
         const sortedStats = sortByMonth(statistics)
-        if (!uniteStats && !compareStats && deposits.length > 1)
+        if (!uniteStats && !compareStats && instances.length > 1)
             return
         return <div style={{width: "100%"}}>
             <hr className="hr-statistics"/>
@@ -138,25 +138,25 @@ export default class App extends React.Component {
                 {renderPieChart(initialSum, sortedStats)}
                 <div className="subtitle">Статистика по месяцам</div>
                 <div className="bar-chart-container">
-                    {!uniteStats && !compareStats && renderBarChart(deposits, sortedStats)}
-                    {uniteStats && renderBarChart(deposits, sortedStats)}
-                    {compareStats && renderBarChart(deposits, sortedStats, false)}
+                    {!uniteStats && !compareStats && renderBarChart(instances, sortedStats)}
+                    {uniteStats && renderBarChart(instances, sortedStats)}
+                    {compareStats && renderBarChart(instances, sortedStats, false)}
                 </div>
                 <div className="subtitle">График выплат процентов</div>
-                <DepositTable fullStatistics={fullStatistics}/>
+                <StatsTable fullStatistics={fullStatistics}/>
             </div>
         </div>
     }
 
-    renderDepositList = () => {
-        return <div className="deposit-list">
-            {this.state.deposits.map((d, i) => <DepositAccordion
+    renderInstanceList = () => {
+        return <div className="instance-list">
+            {this.state.instances.map((d, i) => <InstanceAccordion
                 key={i}
                 i={i}
                 name={`Вклад ${i + 1}`}
-                title={`${d.value} под ${d.rate}% годовых на период с ${d.date_from} по ${d.date_to}`}
-                save={this.saveEditedDeposit}
-                removeItem={this.removeDeposit}
+                title={`${d.value} со ставкой ${d.rate}% на период с ${d.date_from} по ${d.date_to}`}
+                save={this.saveEditedInstance}
+                removeItem={this.removeInstance}
                 {...d}
             />)}
         </div>
@@ -165,7 +165,7 @@ export default class App extends React.Component {
     renderParams = () => {
         return <div className="parameters">
             <div className="params-block">
-                <div className="subtitle">Рассчитать доходность вклада</div>
+                <div className="subtitle">Рассчитать cложные проценты</div>
                 <Input className="input-param input-long"
                        label="Сумма"
                        value={this.state.value}
@@ -174,7 +174,7 @@ export default class App extends React.Component {
                        extraText="руб."
                 />
                 <Input className="input-param"
-                       label="Ставка"
+                       label="Процентная ставка"
                        value={this.state.rate}
                        onChange={this.setRate}
                        error={!this.state.rateValid}
@@ -203,19 +203,19 @@ export default class App extends React.Component {
     }
 
     renderActions = () => {
-        const {deposits, compareStats, uniteStats} = this.state
+        const {instances, compareStats, uniteStats} = this.state
         return <div className="actions">
             <div className={`add-more ${!this.isValid() ? "disabled" : ''}`}>
                 <hr className="hr-plus"/>
                 <div className="plus-outline"
-                     onClick={() => this.isValid() ? this.addDeposit() : {}}>
+                     onClick={() => this.isValid() ? this.addInstance() : {}}>
                     <div className="plus-button"/>
                 </div>
                 <hr className="hr-plus"/>
             </div>
 
-            {deposits.length > 0 ? this.renderDepositList() : null}
-            {deposits.length > 1
+            {instances.length > 0 ? this.renderInstanceList() : null}
+            {instances.length > 1
                 ? <div className="column-params checks">
                     <CheckBox label="Сравнить"
                               onClick={this.setCompareStats}/>
@@ -224,7 +224,7 @@ export default class App extends React.Component {
                 </div>
                 : null
             }
-            {(deposits.length === 1) || (deposits.length > 1 && (compareStats || uniteStats))
+            {(instances.length === 1) || (instances.length > 1 && (compareStats || uniteStats))
                 ? <Button
                     value={this.state.renderCharts ? "Обновить" : "Рассчитать"}
                     onClick={this.setRenderCharts}
@@ -235,10 +235,8 @@ export default class App extends React.Component {
     }
 
     render() {
-        return <div className='deposit-page'>
-            <div className="header">Калькулятор доходности
-                вкладов
-            </div>
+        return <div className='calculator-page'>
+            <div className="header">Финансовый калькулятор</div>
             {this.renderParams()}
             {this.renderActions()}
             {this.state.renderCharts

@@ -5,10 +5,10 @@ from multiprocessing import Pool
 from flask import Flask, request, render_template, url_for
 from flask_cors import CORS
 
-from .models import Deposit
-from .utils import count_deposit_statistics
+from .models import Instance
+from .utils import count_statistics
 
-app = Flask('deposit_calculator',
+app = Flask('finance_calculator',
             template_folder="server/templates")
 
 CORS(app)
@@ -34,34 +34,30 @@ def index():
                            ), 200
 
 
-@app.route('/api/deposits', methods=['POST'])
-def multiple_deposits() -> t.Tuple[dict, int]:
+@app.route('/api/instances', methods=['POST'])
+def count_multiple_instances_statistics() -> t.Tuple[dict, int]:
     payload = dict()
-    deposits = [Deposit(d) for d in request.json]
-    valid = [d.validate() for d in deposits]
+    instances = [Instance(d) for d in request.json]
+    valid = [d.validate() for d in instances]
 
     if not all(valid):
         return {'error': "Ошибка в данных вклада"}, 400
 
     pool = Pool(processes=3)
-    stats_per_deposit = pool.map(count_deposit_statistics, deposits)
+    stats_per_instance = pool.map(count_statistics, instances)
     pool.close()
 
     # TODO: вынести логику
-    for ind, deposit_stats in enumerate(stats_per_deposit):
-        for month_stat in deposit_stats:
+    for ind, instance_stats in enumerate(stats_per_instance):
+        for month_stat in instance_stats:
             month = month_stat['month']
             stats = payload.get(month, dict())
-            stats[f"deposit_value_{ind + 1}"] = stats.get(f"deposit_value_{ind + 1}",
-                                                          month_stat['deposit_value'])
+            stats[f"instance_value_{ind + 1}"] = stats.get(f"instance_value_{ind + 1}",
+                                                          month_stat['instance_value'])
             stats[f"percents_{ind + 1}"] = stats.get(f"percents_{ind + 1}", 0) + \
                                            month_stat['percents']
             payload[month] = stats
 
     result = [{'month': month, **stats} for month, stats in payload.items()]
     return {'statistics': result,
-            'full_statistics': stats_per_deposit}, 200
-
-
-if __name__ == '__main__':
-    app.run(debug=True, port=8000)
+            'full_statistics': stats_per_instance}, 200

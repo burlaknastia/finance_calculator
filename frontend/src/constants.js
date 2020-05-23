@@ -1,4 +1,4 @@
-export const DEPOSIT_COLORS = [
+export const INSTANCE_COLORS = [
     "#ECD7D2", "#DDE2E3", "#D6D0D0", "#C0B6C1",
 ]
 

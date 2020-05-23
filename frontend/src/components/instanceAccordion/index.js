@@ -5,7 +5,7 @@ import Button from "../../elements/button";
 import {isNumeric} from "../../functions";
 
 
-export default function DepositAccordion(props) {
+export default function InstanceAccordion(props) {
     const [setActive, setActiveState] = useState(true)
     const [setEdit, setEditState] = useState(false);
     const [newValue, setValue] = useState(props.value);
@@ -46,14 +46,14 @@ export default function DepositAccordion(props) {
         toggleEdit()
     }
 
-    return <div className="deposit-item_container">
-        <div className={`deposit-item ${setActive ? '' : 'expand'}`}
+    return <div className="instance-item_container">
+        <div className={`instance-item ${setActive ? '' : 'expand'}`}
              onClick={toggleAccordion}>
-            <span className="deposit-text">{props.name}</span>
-            <span className="deposit-text">{props.title}</span>
+            <span className="instance-text">{props.name}</span>
+            <span className="instance-text">{props.title}</span>
             <i className="material-icons dropdown-arrow">expand_more</i>
         </div>
-        <div className={`deposit-item__more ${setActive ? '' : 'display'}`}>
+        <div className={`instance-item__more ${setActive ? '' : 'display'}`}>
             <div className={`accordion-content ${setEdit ? '' : 'disabled'}`}>
                 <div className="column">
                     <Input className="input-long"
