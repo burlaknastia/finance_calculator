@@ -61,7 +61,7 @@ export default function InstanceAccordion(props) {
                            value={newValue}
                            onChange={setValue}
                     />
-                    <Input label="Ставка"
+                    <Input label="Процентная ставка"
                            value={newRate}
                            onChange={setRate}
                     />
