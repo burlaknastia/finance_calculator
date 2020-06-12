@@ -136,13 +136,13 @@ export default class App extends React.Component {
             <div className="subtitle statistics">Статистика расчета</div>
             <div className="charts-container">
                 {renderPieChart(initialSum, sortedStats)}
-                <div className="subtitle">Статистика по месяцам</div>
+                <div className="subtitle">Статистика по периоду</div>
                 <div className="bar-chart-container">
                     {!uniteStats && !compareStats && renderBarChart(instances, sortedStats)}
                     {uniteStats && renderBarChart(instances, sortedStats)}
                     {compareStats && renderBarChart(instances, sortedStats, false)}
                 </div>
-                <div className="subtitle">График выплат процентов</div>
+                <div className="subtitle">Таблица процентов</div>
                 <StatsTable fullStatistics={fullStatistics}/>
             </div>
         </div>

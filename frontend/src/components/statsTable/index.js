@@ -31,7 +31,7 @@ export default function StatsTable(props) {
             <tr className="table-row">
                 <th className="table-header header-date">Дата начала</th>
                 <th className="table-header header-date">Дата конца</th>
-                <th className="table-header">Сумма вклада</th>
+                <th className="table-header">Первоначальная сумма</th>
                 <th className="table-header">Начисленный процент</th>
             </tr>
             {stats.map((st, ind) =>

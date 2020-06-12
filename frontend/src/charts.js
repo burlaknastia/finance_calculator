@@ -43,13 +43,13 @@ export function renderBarChart(instances, statistics, uniteStats = true) {
             {renderTooltip()}
             {instances.map((d, i) => <Bar key={i}
                                          dataKey={`instance_value_${i + 1}`}
-                                         name={`Сумма вклада ${i + 1}`}
+                                         name={`Первоначальная сумма ${i + 1}`}
                                          stackId={uniteStats ? "instance" : `instance_${i + 1}`}
                                          fill={INSTANCE_COLORS[i]}/>
             )}
             {instances.map((d, i) => <Bar key={`percents_${i}`}
                                          dataKey={`percents_${i + 1}`}
-                                         name={`Доход ${i + 1}`}
+                                         name={`Проценты ${i + 1}`}
                                          stackId={uniteStats ? "instance" : `instance_${i + 1}`}
                                          fill={PERCENT_COLORS[i]}/>
             )}

@@ -9,6 +9,7 @@ from .models import Instance
 from .utils import count_statistics
 
 app = Flask('finance_calculator',
+            static_folder="server/static",
             template_folder="server/templates")
 
 CORS(app)
